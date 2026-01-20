@@ -26,16 +26,26 @@ export default function Login() {
     }
   };
 
+  const inputStyles = "border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
+
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email" />
-        <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" type="password" />
-        <button type="submit">Login</button>
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email"
+        className={inputStyles} />
+        <input value={password} onChange={(e) => setPassword(e.target.value)} placeholder="password" type="password"
+         className={inputStyles} />
+        <button 
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          Login
+        </button>
       </form>
       <div>
-        <p>Don't have an account?
-          <Link to="/register"> Register</Link>
+        <p className="text-sm">Don't have an account?
+          <Link to="/register"
+          className="text-blue-500 hover:underline ml-1"
+          > Register</Link>
         </p>
       </div>
     </div>

@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import EmployerDashboard from './pages/EmployerDashboard';
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
+import './index.css';
 
 function App() {
 

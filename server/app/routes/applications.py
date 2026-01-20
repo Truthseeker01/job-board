@@ -21,7 +21,10 @@ def apply_to_job(job_id):
     ).first()
 
   if existing_application:
-    return jsonify({"msg": "You have already applied to this job"}), 400
+    return jsonify({
+        "hasApplied": True,
+        "msg": "You have already applied to this job."
+    }), 400
   
   job = Job.query.get_or_404(job_id)
 

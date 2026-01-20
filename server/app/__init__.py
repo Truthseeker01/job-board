@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 
 
@@ -24,6 +25,7 @@ def create_app():
         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     )
     db.init_app(app)
+    Migrate(app, db)
     jwt.init_app(app)
     
     from app.routes.auth import auth_bp

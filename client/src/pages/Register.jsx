@@ -15,11 +15,15 @@ const Register = () => {
         alert("Registration successful!");
   };
 
+  const inputStyles = "border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
+
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen">
       <h2>Register</h2>
-      <form onSubmit={submitForm}>
+      <form onSubmit={submitForm}
+      className="flex flex-col gap-4">
         <input
+          className={inputStyles}
           type="email"
           placeholder="Email"
           value={formData.email}
@@ -27,6 +31,7 @@ const Register = () => {
           required
         />
         <input
+          className={inputStyles}
           type="password"
           placeholder="Password"
           value={formData.password}
@@ -34,17 +39,20 @@ const Register = () => {
           required
         />
         <select
+          className={inputStyles}
           value={formData.role}
           onChange={(e) => setFormData({ ...formData, role: e.target.value })}
         >
           <option value="seeker">Job Seeker</option>
           <option value="employer">Employer</option>
         </select>
-        <button type="submit">Register</button>
+        <button type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Register</button>
       </form>
       <div>
-        <p>Already have an account?
-          <Link to="/login"> Login</Link>
+        <p className="text-sm">Already have an account?
+          <Link to="/login"
+          className="text-blue-500 hover:underline ml-1"> Login</Link>
         </p>
       </div>
     </div>

@@ -10,12 +10,13 @@ export default function EmployerDashboard() {
   }, []);
 
   return (
-    <div>
-      <h2>Applications</h2>
+    <div className="flex flex-col gap-4 p-4 max-w-2xl mx-auto">
+      <h2 className="text-xl font-bold">Applications</h2>
       {applications.map(app => (
-        <div key={app.id}>
+        <div key={app.id}
+         className="flex flex-col border border-gray-300 rounded p-4 shadow-sm">
           <h3>{app.job_title}</h3>
-          <p>{app.cover_letter}</p>
+          <p className="break-words overflow-wrap-break-word whitespace-pre-wrap">{app.cover_letter}</p>
           <small>{new Date(app.created_at).toLocaleString()}</small>
         </div>
       ))}

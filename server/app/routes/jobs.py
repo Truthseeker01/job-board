@@ -1,9 +1,11 @@
+from pydoc import text
 from flask import Blueprint, request, jsonify
 from app.models.job import Job 
 from app.models.user import User
 from app import db
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from sqlalchemy import desc
 
 jobs_bp = Blueprint('jobs', __name__)
 
@@ -33,19 +35,33 @@ def create_job():
   except Exception as e:
     return jsonify({"msg": "Error creating job", "error": str(e)}), 500
 
-@jobs_bp.route('/jobs', methods=['GET'])
+@jobs_bp.route("/jobs", methods=["GET"])
 def get_jobs():
-  jobs = Job.query.all()
-  jobs_list = [{
-      "id": job.id,
-      "title": job.title,
-      "description": job.description,
-      "location": job.location,
-      "salary": job.salary,
-      "employer_id": job.employer_id
-  } for job in jobs]
+    keyword = request.args.get("q")
+    location = request.args.get("location")
 
-  return jsonify(jobs_list), 200
+    query = Job.query
+
+    if keyword:
+        query = query.filter(Job.title.ilike(f"%{keyword}%"))
+
+    if location:
+        query = query.filter(Job.location.ilike(f"%{location}%"))
+
+    # jobs = query.order_by(Job.created_at.desc()).all()
+    jobs = query.all()
+    ordered_jobs = sorted(jobs, key=lambda x: x.updated_at, reverse=True)
+    return [
+        {
+            "id": j.id,
+            "title": j.title,
+            "location": j.location,
+            "salary": j.salary,
+            "updated_at": j.updated_at,
+            "has_applied": j.hasApplied
+        }
+        for j in ordered_jobs
+    ]
 
 @jobs_bp.route("/jobs/<int:id>", methods=["GET"])
 def get_job(id):
@@ -58,4 +74,5 @@ def get_job(id):
         "location": job.location,
         "salary": job.salary,
         "employer_id": job.employer_id,
+        "has_applied": job.hasApplied
     }, 200
