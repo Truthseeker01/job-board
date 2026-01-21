@@ -180,24 +180,6 @@ function JobCard({ job }) {
 }
 ```
 
-## 🔧 Configuration
-
-### Backend Environment Variables
-Create a `.env` file in the `server` folder:
-
-```env
-SECRET_KEY=your-secret-key-here
-FLASK_ENV=development
-DATABASE_URL=sqlite:///db.sqlite3
-```
-
-### Frontend Environment Variables
-Create a `.env` file in the `client` folder:
-
-```env
-VITE_API_URL=http://localhost:5000
-```
-
 ## 🚢 Deployment
 
 ### Deploy Backend (Render)
@@ -251,25 +233,12 @@ This project was built in **7 days** following a structured approach:
 - [Flask-JWT-Extended](https://flask-jwt-extended.readthedocs.io/) - Authentication
 - [Flask-CORS](https://flask-cors.readthedocs.io/) - Cross-origin support
 
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
-
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📝 License
-
-Distributed under the MIT License. See `LICENSE` for more information.
 
 ## 📞 Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter) - email@example.com
+Ahmed - [https://discord.gg/8QMjCBgn](https://discord.gg/8QMjCBgn)
 
-Project Link: [https://github.com/yourusername/job-board](https://github.com/yourusername/job-board)
+Project Link: [https://github.com/truthseeker01/job-board](https://github.com/truthseeker01/job-board)
 
 ## 🙏 Acknowledgments
 
@@ -283,7 +252,7 @@ Project Link: [https://github.com/yourusername/job-board](https://github.com/you
 
 <div align="center">
   
-Made with ❤️ and ☕ by [Your Name]
+Made with ❤️ and ☕ by Ahmed B
 
 **If you found this project helpful, please give it a ⭐!**
 

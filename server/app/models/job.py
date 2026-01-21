@@ -14,6 +14,5 @@ class Job(db.Model):
       db.ForeignKey("user.id"),
       nullable=False
   )
-  hasApplied = db.Column(db.Boolean, default=False)
 
   employer = db.relationship("User", backref="jobs")

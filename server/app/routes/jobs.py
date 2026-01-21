@@ -2,6 +2,7 @@ from pydoc import text
 from flask import Blueprint, request, jsonify
 from app.models.job import Job 
 from app.models.user import User
+from app.models.application import Application
 from app import db
 from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity
@@ -57,8 +58,7 @@ def get_jobs():
             "title": j.title,
             "location": j.location,
             "salary": j.salary,
-            "updated_at": j.updated_at,
-            "has_applied": j.hasApplied
+            "updated_at": j.updated_at
         }
         for j in ordered_jobs
     ]
@@ -74,5 +74,23 @@ def get_job(id):
         "location": job.location,
         "salary": job.salary,
         "employer_id": job.employer_id,
-        "has_applied": job.hasApplied
     }, 200
+
+@jobs_bp.route("/jobs/<int:job_id>/application-status")
+@jwt_required()
+def application_status(job_id):
+    user_id = get_jwt_identity()
+
+    application = Application.query.filter_by(
+        job_id=job_id,
+        seeker_id=user_id
+    ).first()
+
+    return jsonify({
+        "applied": application is not None,
+        "application": {
+            "id": application.id,
+            "seeker_id": application.seeker_id,
+            "job_id": application.job_id,
+        } if application else None
+    }), 200

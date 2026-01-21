@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import { toast } from "react-toastify";
+import { toast, Bounce } from "react-toastify";
+
 
 export default function JobDetail() {
   const { id } = useParams();
@@ -13,36 +14,73 @@ export default function JobDetail() {
   const { user } = useAuth();
 
   useEffect(() => {
-    api.get(`/jobs/${id}`).then(res => setJob(res.data));
-    
-    // Check if user already applied
-    if (user && user.role === "applicant") {
-      api.get(`/jobs/${id}/applications/check`)
-        .then(res => setHasApplied(res.data.has_applied))
-        .catch(() => setHasApplied(false));
-    }
+    api.get(`/jobs/${id}`).then(res => setJob(res.data))
+    .catch(err => {
+      toast.error("Failed to fetch job details: " + (err.response?.data?.message || err.message));
+    });
   }, [id, user]);
 
-  console.log(job);
+  useEffect(() => {
+    api.get(`/jobs/${id}/application-status`).then((res) => {
+      setHasApplied(res.data.applied);
+      console.log(res.data.application)
+    })
+  }, [id]);
+
+  console.log(hasApplied);
 
   const apply = async () => {
     setIsApplying(true);
     
     try {
       if (!user) {
-        toast.error("Please log in or register to apply");
+        // toast.error("Please log in or register to apply");
+        toast.error('Please log in or register to apply', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          });
+        console.log("No user logged in, cannot apply");
         setIsApplying(false);
         return;
       }
       
       if (user.role === "employer") {
-        toast.error("Only applicants can apply for jobs");
+        toast.error('Only applicants can apply for jobs', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          });
+        console.log("User role is employer, cannot apply");
         setIsApplying(false);
         return;
       }
       
       if (hasApplied) {
-        toast.error("You have already applied for this job");
+        toast.error('You have already applied for this job', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          });
+        console.log("User has already applied, cannot apply again");
         setIsApplying(false);
         return;
       }
@@ -53,13 +91,14 @@ export default function JobDetail() {
       
       toast.success("Application submitted successfully! 🎉");
       setHasApplied(true);
-      setCoverLetter(""); // Clear the textarea
+      setCoverLetter(""); 
       
     } catch (error) {
       if (error.response?.status === 401) {
         toast.error("Please log in to apply");
       } else if (error.response?.status === 400) {
         toast.error("You have already applied for this job");
+        console.log(error.response.data);
         setHasApplied(true);
       } else if (error.response?.status === 403) {
         toast.error("Only applicants can apply for jobs");
@@ -129,7 +168,7 @@ export default function JobDetail() {
       <div className="bg-white rounded-lg shadow-md p-6">
         <h3 className="text-xl font-semibold mb-4">Apply for this Position</h3>
         
-        {job.has_applied ? (
+        {hasApplied ? (
           <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-4">
             <div className="flex items-center">
               <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -154,7 +193,7 @@ export default function JobDetail() {
           </div>
         )}
 
-        {user?.role === "seeker" && !job.has_applied && (
+        {user?.role === "seeker" && !hasApplied && (
           <>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-medium mb-2">

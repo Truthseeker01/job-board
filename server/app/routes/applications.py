@@ -22,11 +22,12 @@ def apply_to_job(job_id):
 
   if existing_application:
     return jsonify({
-        "hasApplied": True,
         "msg": "You have already applied to this job."
     }), 400
   
   job = Job.query.get_or_404(job_id)
+  job.hasApplied = True
+  db.session.commit()
 
   data = request.get_json()
 
