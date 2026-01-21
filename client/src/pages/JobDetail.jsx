@@ -52,34 +52,14 @@ export default function JobDetail() {
       }
       
       if (user.role === "employer") {
-        toast.error('Only applicants can apply for jobs', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-          });
+        toast.error('Only applicants can apply for jobs');
         console.log("User role is employer, cannot apply");
         setIsApplying(false);
         return;
       }
       
       if (hasApplied) {
-        toast.error('You have already applied for this job', {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-          });
+        toast.error('You have already applied for this job');
         console.log("User has already applied, cannot apply again");
         setIsApplying(false);
         return;

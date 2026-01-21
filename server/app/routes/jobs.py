@@ -76,7 +76,7 @@ def get_job(id):
         "employer_id": job.employer_id,
     }, 200
 
-@jobs_bp.route("/jobs/<int:job_id>/application-status")
+@jobs_bp.route("/jobs/<int:job_id>/application-status", methods=["GET"])
 @jwt_required()
 def application_status(job_id):
     user_id = get_jwt_identity()

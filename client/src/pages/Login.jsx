@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -12,17 +13,17 @@ export default function Login() {
     try {
       const res = await api.post("/auth/login", { email, password });
 
-      // IMPORTANT: this must match your backend response key
       localStorage.setItem("token", res.data.access_token);
 
       console.log("Saved token:", localStorage.getItem("token"));
-      //route to home
+
+      toast.success("Login successful!");
+
       window.location.href = "http://localhost:5173/";
 
-      // simplest way to show logged-in UI immediately:
-      // window.location.reload();
+    // eslint-disable-next-line no-unused-vars
     } catch (err) {
-      console.error("Login failed:", err.response?.data || err.message);
+      toast.error("Incorrect email or password");
     }
   };
 

@@ -8,6 +8,7 @@ import EmployerDashboard from './pages/EmployerDashboard';
 import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import './index.css';
+import { Bounce, ToastContainer } from 'react-toastify';
 
 function App() {
 
@@ -37,46 +38,20 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        transition={Bounce}
+        pauseOnHover
+       />
       </>
   );
 }
 
 export default App;
-
-// import { useEffect, useState } from 'react';
-// import Login from './pages/Login.jsx';
-// import Register from './pages/Register.jsx';
-// import api from './services/api';
-
-// function App() {
-//   const [currentUser, setCurrentUser] = useState(null);
-//   const [checkingAuth, setCheckingAuth] = useState(true);
-
-//   useEffect(() => {
-//     const token = localStorage.getItem("token");
-//     if (!token) {
-//       () => setCheckingAuth(false);
-//       return;
-//     }
-//     api.get('/auth/me')
-//       .then((res) => setCurrentUser(res.data))
-//       .catch(() => {
-//         localStorage.removeItem("token");
-//         setCurrentUser(null)
-//       })
-//       .finally(() => setCheckingAuth(false));
-//   }, []);
-
-//   if (checkingAuth) return <div>Loading...</div>;
-
-//   return currentUser ? (
-//     <div>Welcome, {currentUser.email}!</div>
-//   ) : (
-//     <>
-//       <Login />
-//       <Register />
-//     </>
-//   );
-// }
-
-// export default App;

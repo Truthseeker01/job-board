@@ -49,9 +49,6 @@ export default function Jobs() {
           <h3 className="font-bold">{job.title}</h3>
           <p>Loacation: {job.location}</p>
           <p>Salary: {job.salary}</p>
-          {/* <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">
-            {job.has_applied ? "Applied" : "Not Applied"}
-          </span> */}
           <br />
           <Link to={`/jobs/${job.id}`}
           className="text-xs hover:text-blue-300">View</Link>

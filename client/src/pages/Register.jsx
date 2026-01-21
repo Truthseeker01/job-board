@@ -1,6 +1,7 @@
 import api from "../services/api";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -9,10 +10,15 @@ const Register = () => {
         role: "seeker",
     });
 
-    const submitForm = async (e) => {
-        e.preventDefault();
-        await api.post("/auth/register", formData);
-        alert("Registration successful!");
+  const submitForm = async (e) => {
+      e.preventDefault();
+      try {
+          await api.post("/auth/register", formData);
+          toast.success("Registration successful! Go to login.");
+      // eslint-disable-next-line no-unused-vars
+      } catch (err) {
+          toast.error("Registration failed: check your details and try again.");
+      }
   };
 
   const inputStyles = "border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";
