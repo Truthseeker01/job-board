@@ -1,33 +1,26 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager
-from flask_cors import CORS
 from flask_migrate import Migrate
-
-
-
+import os
 
 db = SQLAlchemy()
 jwt = JWTManager()
-
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object("app.config.Config")
 
+    # allowed_origins = os.getenv(
+    #     "CORS_ORIGINS",
+    #     "http://localhost:5173,http://localhost:8080"
+    # ).split(",")
 
-    # CORS(app)
-    CORS(
-        app,
-        resources={r"/*": {"origins": "http://localhost:5173"}},
-        supports_credentials=True,
-        allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    )
+
     db.init_app(app)
     Migrate(app, db)
     jwt.init_app(app)
-    
+
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix="/auth")
 
@@ -38,4 +31,3 @@ def create_app():
     app.register_blueprint(applications_bp)
 
     return app
-

@@ -44,7 +44,7 @@ def login():
 @jwt_required()
 def me():
   try:
-    current_user_id = (get_jwt_identity())
+    current_user_id = int(get_jwt_identity())
     current_user = User.query.get(current_user_id)
     return jsonify({
     "id": current_user.id,

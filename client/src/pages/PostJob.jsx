@@ -1,5 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function PostJob() {
   const [form, setForm] = useState({
@@ -8,11 +10,19 @@ export default function PostJob() {
     location: "",
     salary: "",
   });
+  const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
     await api.post("/post-job", form);
-    alert("Job posted!");
+    toast.success("Job posted!");
+    () => setForm({
+      title: "",
+      description: "", 
+      location: "",
+      salary: "",
+    });
+    navigate("/");
   };
 
   const inputStyles = "border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500";

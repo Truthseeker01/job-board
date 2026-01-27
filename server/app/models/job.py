@@ -7,7 +7,7 @@ class Job(db.Model):
   description = db.Column(db.Text, nullable=False)
   location = db.Column(db.String(100))
   salary = db.Column(db.String(50))
-  created_at = db.Column(db.DateTime, default=datetime.utcnow),
+  created_at = db.Column(db.DateTime, default=datetime.utcnow)
   updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
   employer_id = db.Column(
       db.Integer,

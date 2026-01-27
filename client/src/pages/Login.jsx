@@ -2,10 +2,14 @@ import { useState } from "react";
 import api from "../services/api";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,13 +17,11 @@ export default function Login() {
     try {
       const res = await api.post("/auth/login", { email, password });
 
-      localStorage.setItem("token", res.data.access_token);
-
-      console.log("Saved token:", localStorage.getItem("token"));
+      login(res.data.access_token, res.data.user);
 
       toast.success("Login successful!");
 
-      window.location.href = "http://localhost:5173/";
+      navigate("/");
 
     // eslint-disable-next-line no-unused-vars
     } catch (err) {

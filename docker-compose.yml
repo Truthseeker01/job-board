@@ -1,0 +1,22 @@
+services:
+  server:
+    build: ./server
+    environment:
+      - SECRET_KEY=change-me
+      - DATABASE_URL=sqlite:////app/instance/db.sqlite3
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:8080
+    volumes:
+      - ./server:/app
+      - jobboard_db:/app/instance
+    ports:
+      - "5000:5000"
+
+  client:
+    build: ./client
+    depends_on:
+      - server
+    ports:
+      - "8080:80"
+
+volumes:
+  jobboard_db:

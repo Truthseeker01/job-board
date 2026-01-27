@@ -1,6 +1,6 @@
 import api from "../services/api";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -9,12 +9,14 @@ const Register = () => {
         password: "",
         role: "seeker",
     });
+    const navigate = useNavigate();
 
   const submitForm = async (e) => {
       e.preventDefault();
       try {
           await api.post("/auth/register", formData);
           toast.success("Registration successful! Go to login.");
+          navigate("/login");
       // eslint-disable-next-line no-unused-vars
       } catch (err) {
           toast.error("Registration failed: check your details and try again.");
